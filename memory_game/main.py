@@ -42,7 +42,8 @@ while running:
                 flipped.append(clicked_card)
 
                 if len(flipped) == 2:
-                    pygame.display.flip()
+                    draw_board(screen, cards, FONT, colors)
+                    pygame.display.update()
                     pygame.time.delay(1000)
                     if flipped[0].symbol == flipped[1].symbol:
                         flipped[0].matched = True
