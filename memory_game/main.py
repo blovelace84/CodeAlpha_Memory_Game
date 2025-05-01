@@ -14,33 +14,40 @@ DARK_GRAY = (50, 50, 50)
 
 colors = {
     'hidden': (100, 100, 100),
-    'revealed': (200, 200, 200),
-    'matched': (0, 255, 0),
+    'revealed': (240, 240, 240),
+    'matched': (0, 255, 127),
     'text': BLACK
 }
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Memory Game")
-FONT = pygame.font.SysFont(None, 60)
+pygame.display.set_caption("Emoji Memory Game 🎮")
+FONT = pygame.font.SysFont("Segoe UI Emoji", 60)
 SMALL_FONT = pygame.font.SysFont(None, 40)
 clock = pygame.time.Clock()
 
-# 🔊 Load sounds
+# Load sounds
 flip_sound = pygame.mixer.Sound("sounds/flip.mp3")
 match_sound = pygame.mixer.Sound("sounds/matched.mp3")
 win_sound = pygame.mixer.Sound("sounds/win.mp3")
 
 def generate_cards(rows, cols, card_size, padding):
-    total_cards = rows * cols
-    symbols = [chr(65 + i) for i in range(total_cards // 2)] * 2
+    total_width = cols * card_size + (cols + 1) * padding
+    total_height = rows * card_size + (cols + 1) * padding
+
+    start_x = (WIDTH - total_width) // 2 + padding
+    start_y = (HEIGHT - total_height) // + padding
+
+    emoji_list = ['🍎', '🚗', '🐶', '🎈', '🌟', '🍕', '🎵', '🧩']
+    symbols = emoji_list * 2
     random.shuffle(symbols)
     cards = []
+
     for row in range(rows):
         row_cards = []
         for col in range(cols):
-            x = col * (card_size + padding) + padding
-            y = row * (card_size + padding) + padding
+            x = start_x + col * (card_size + padding) 
+            y = start_y + row * (card_size + padding)
             symbol = symbols.pop()
             row_cards.append(Card(x, y, card_size, symbol))
         cards.append(row_cards)
@@ -87,7 +94,7 @@ while running:
         if not played_win_sound:
             win_sound.play()
             played_win_sound = True
-        win_text = FONT.render("You Win!", True, BLACK)
+        win_text = FONT.render("You Win! 🎉", True, BLACK)
         screen.blit(win_text, win_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 40)))
         restart_button = draw_restart_button(screen)
 

@@ -12,7 +12,12 @@ class Card:
             pygame.draw.rect(surface, colors['matched'], self.rect)
         elif self.revealed:
             pygame.draw.rect(surface, colors['revealed'], self.rect)
-            text = font.render(self.symbol, True, colors['text'])
-            surface.blit(text, text.get_rect(center=self.rect.center))
         else:
             pygame.draw.rect(surface, colors['hidden'], self.rect)
+
+        pygame.draw.rect(surface, colors['text'], self.rect, 2)
+
+        if self.revealed or self.matched:
+            text = font.render(self.symbol, True, colors['text'])
+            text_rect = text.get_rect(center=self.rect.center)
+            surface.blit(text, text_rect)
